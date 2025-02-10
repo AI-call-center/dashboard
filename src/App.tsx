@@ -8,6 +8,7 @@ import CampaignsPage from './components/campaigns/CampaignsPage';
 import CallsPage from './components/calls/CallsPage';
 import LeadsContainer from './components/leads/LeadsContainer';
 import BuyPhonePage from './components/phone/BuyPhonePage';
+import ManagePhonePage from './components/phone/ManagePhonePage';
 import AnimatedCursor from './components/AnimatedCursor';
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
         return <LeadsContainer />;
       case 'Buy Number':
         return <BuyPhonePage />;
+      case 'Manage':
+        return <ManagePhonePage />;
       default:
         return <Dashboard />;
     }

@@ -73,7 +73,9 @@ const Sidebar = ({ selectedMenu, onMenuSelect }: SidebarProps) => {
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05, x: 5 }}
-            className="w-full flex items-center px-4 py-2 text-gray-400 hover:text-white"
+            whileTap={{ scale: 0.95 }}
+            onClick={() => onMenuSelect('Manage')}
+            className={`w-full flex items-center px-4 py-2 ${selectedMenu === 'Manage' ? 'bg-dashboard-accent text-white animate-glow rounded-lg' : 'text-gray-400 hover:text-white'}`}
           >
             <CogIcon className="w-5 h-5 mr-3" />
             Manage
