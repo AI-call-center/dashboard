@@ -87,7 +87,7 @@ const Dashboard = () => {
         className="p-6 rounded-xl bg-dashboard-surface border border-gray-800"
       >
         <div className="flex justify-between items-center mb-6">
-          <div className="text-xl font-semibold text-white">Active Leads</div>
+          <div className="text-xl font-semibold text-white">Recent Leads</div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium animate-glow"
