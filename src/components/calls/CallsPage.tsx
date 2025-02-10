@@ -8,7 +8,6 @@ import {
   QuestionMarkCircleIcon,
   AdjustmentsHorizontalIcon,
   ArrowDownTrayIcon,
-  Cog6ToothIcon,
 
 } from '@heroicons/react/24/outline';
 import CallsTable from './CallsTable';
@@ -200,24 +199,14 @@ const CallsPage = () => {
             Manage and analyze all your call records in one place
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
-          >
-            <Cog6ToothIcon className="w-5 h-5" />
-            Columns
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
-          >
-            <ArrowDownTrayIcon className="w-5 h-5" />
-            Export
-          </motion.button>
-        </div>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 rounded-lg hover:bg-gray-700"
+        >
+          <ArrowDownTrayIcon className="w-5 h-5" />
+          Export
+        </motion.button>
       </div>
 
       {/* Search and Filter Toggle */}
