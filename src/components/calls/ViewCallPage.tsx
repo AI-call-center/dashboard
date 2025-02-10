@@ -16,6 +16,7 @@ const ViewCallPage = ({ callId, onBack }: ViewCallPageProps) => {
   const [currentTime, setCurrentTime] = useState(0);
 
   // Mock data - replace with actual API calls
+  console.log('Viewing call:', callId);
   const callData = {
     type: 'Outbound',
     status: 'Completed',

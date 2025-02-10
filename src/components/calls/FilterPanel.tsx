@@ -16,7 +16,6 @@ interface FilterPanelProps {
     maxDuration: string;
   };
   onFilterChange: (filters: FilterPanelProps['filters']) => void;
-  onRemoveFilter: (key: keyof FilterPanelProps['filters']) => void;
 }
 
 const FilterPanel = ({
