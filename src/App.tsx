@@ -10,6 +10,7 @@ import LeadsContainer from './components/leads/LeadsContainer';
 import BuyPhonePage from './components/phone/BuyPhonePage';
 import ManagePhonePage from './components/phone/ManagePhonePage';
 import BillingPage from './components/billing/BillingPage';
+import ActionsPage from './components/actions/ActionsPage';
 import AnimatedCursor from './components/AnimatedCursor';
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
         return <ManagePhonePage />;
       case 'Billing':
         return <BillingPage />;
+      case 'Actions':
+        return <ActionsPage />;
       default:
         return <Dashboard />;
     }
