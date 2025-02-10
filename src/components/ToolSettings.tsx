@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { PhoneArrowUpRightIcon, CalendarDaysIcon, PhoneXMarkIcon } from '@heroicons/react/24/outline';
+
 
 interface ToolSettingsProps {
   toolId: string;

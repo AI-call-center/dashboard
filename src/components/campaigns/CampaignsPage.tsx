@@ -29,7 +29,12 @@ const CampaignsPage = () => {
   const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [activeFilters, setActiveFilters] = useState({
+  const [activeFilters, setActiveFilters] = useState<{
+    status: string[];
+    dateRange: string;
+    performance: string;
+    leads: string;
+  }>({
     status: [],
     dateRange: '',
     performance: '',

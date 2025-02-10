@@ -70,7 +70,19 @@ interface CreateAgentFormProps {
 
 const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    voice: string;
+    tone: string;
+    greeting: string;
+    prompt: string;
+    llm: string;
+    customKnowledge: string;
+    variables: { key: string; value: string; }[];
+    postCallVariables: { name: string; description: string; }[];
+    selectedTools: string[];
+    toolSettings: Record<string, any>;
+  }>({
     name: '',
     voice: 'Christopher',
     tone: '',

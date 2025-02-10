@@ -25,7 +25,7 @@ interface CampaignDetailPageProps {
   campaignId: string;
 }
 
-const CampaignDetailPage = ({ campaignId }: CampaignDetailPageProps) => {
+const CampaignDetailPage = ({}: CampaignDetailPageProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [campaign, setCampaign] = useState({
     name: 'Summer Outreach Campaign',
@@ -54,7 +54,7 @@ const CampaignDetailPage = ({ campaignId }: CampaignDetailPageProps) => {
     },
   });
 
-  const [showTooltip, setShowTooltip] = useState('');
+  const [, setShowTooltip] = useState('');
   const [showTemplateModal, setShowTemplateModal] = useState(false);
 
   const statusColors = {
