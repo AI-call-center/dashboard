@@ -7,6 +7,7 @@ import TemplatesPage from './components/TemplatesPage';
 import CampaignsPage from './components/campaigns/CampaignsPage';
 import CallsPage from './components/calls/CallsPage';
 import LeadsContainer from './components/leads/LeadsContainer';
+import BuyPhonePage from './components/phone/BuyPhonePage';
 import AnimatedCursor from './components/AnimatedCursor';
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
         return <CallsPage />;
       case 'CRM':
         return <LeadsContainer />;
+      case 'Buy Number':
+        return <BuyPhonePage />;
       default:
         return <Dashboard />;
     }
