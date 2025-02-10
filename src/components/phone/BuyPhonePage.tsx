@@ -8,8 +8,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MapPinIcon,
-  CheckIcon,
-  XCircleIcon,
+
 } from '@heroicons/react/24/outline';
 import { Switch, RadioGroup } from '@headlessui/react';
 
