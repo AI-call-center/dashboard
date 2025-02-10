@@ -96,18 +96,37 @@ const Sidebar = ({ selectedMenu, onMenuSelect }: SidebarProps) => {
           </div>
         </div>
 
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="flex items-center p-4 bg-dashboard-surface rounded-lg border border-gray-800"
-        >
-          <div className="w-10 h-10 rounded-full bg-dashboard-accent flex items-center justify-center text-white font-semibold">
-            S
+        <div className="relative group">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center p-4 bg-dashboard-surface rounded-lg border border-gray-800 cursor-pointer"
+          >
+            <div className="w-10 h-10 rounded-full bg-dashboard-accent flex items-center justify-center text-white font-semibold">
+              S
+            </div>
+            <div className="ml-3">
+              <div className="text-sm font-medium text-white">User Profile</div>
+              <div className="text-xs text-gray-400">View settings</div>
+            </div>
+          </motion.div>
+
+          <div className="absolute bottom-full left-0 mb-2 w-full bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+            <motion.button
+              whileHover={{ x: 5 }}
+              onClick={() => onMenuSelect('Billing')}
+              className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-700 rounded-t-lg"
+            >
+              Billing
+            </motion.button>
+            <motion.button
+              whileHover={{ x: 5 }}
+              onClick={() => console.log('Logout clicked')}
+              className="w-full px-4 py-2 text-left text-gray-300 hover:text-white hover:bg-gray-700 rounded-b-lg"
+            >
+              Logout
+            </motion.button>
           </div>
-          <div className="ml-3">
-            <div className="text-sm font-medium text-white">User Profile</div>
-            <div className="text-xs text-gray-400">View settings</div>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );
