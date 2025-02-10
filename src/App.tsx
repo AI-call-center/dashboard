@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import AgentsPage from './components/AgentsPage';
 import TemplatesPage from './components/TemplatesPage';
 import CampaignsPage from './components/campaigns/CampaignsPage';
+import CallsPage from './components/calls/CallsPage';
 import AnimatedCursor from './components/AnimatedCursor';
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
         return <AgentsPage />;
       case 'Campaigns':
         return <CampaignsPage />;
+      case 'Calls':
+        return <CallsPage />;
       default:
         return <Dashboard />;
     }
