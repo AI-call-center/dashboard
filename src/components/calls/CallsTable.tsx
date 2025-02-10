@@ -26,6 +26,7 @@ interface CallsTableProps {
   rowsPerPage: number;
   onPageChange: (page: number) => void;
   onRowsPerPageChange: (rows: number) => void;
+  onCallClick?: (callId: string) => void;
 }
 
 const CallsTable = ({
@@ -34,6 +35,7 @@ const CallsTable = ({
   rowsPerPage,
   onPageChange,
   onRowsPerPageChange,
+  onCallClick,
 }: CallsTableProps) => {
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -100,7 +102,8 @@ const CallsTable = ({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 whileHover={{ backgroundColor: 'rgba(55, 65, 81, 0.5)' }}
-                className="bg-gray-800/30 hover:bg-gray-700/30 transition-colors"
+                onClick={() => onCallClick?.(call.id)}
+                className="bg-gray-800/30 hover:bg-gray-700/30 transition-colors cursor-pointer"
               >
                 <td className="px-6 py-4 font-medium">{call.phoneNumber}</td>
                 <td className="px-6 py-4">

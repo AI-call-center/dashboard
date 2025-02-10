@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 import CallsTable from './CallsTable';
 import FilterPanel from './FilterPanel';
+import ViewCallPage from './ViewCallPage';
 
 interface Call {
   id: string;
@@ -28,6 +29,7 @@ interface Call {
 }
 
 const CallsPage = () => {
+  const [selectedCallId, setSelectedCallId] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilters, setActiveFilters] = useState({
@@ -174,6 +176,10 @@ const CallsPage = () => {
     setShowFilters(!showFilters);
   };
 
+  if (selectedCallId) {
+    return <ViewCallPage callId={selectedCallId} onBack={() => setSelectedCallId(null)} />
+  }
+
   return (
     <div className="min-h-screen p-6 space-y-6">
       {/* Header Section */}
@@ -308,6 +314,7 @@ const CallsPage = () => {
         rowsPerPage={rowsPerPage}
         onPageChange={setCurrentPage}
         onRowsPerPageChange={setRowsPerPage}
+        onCallClick={setSelectedCallId}
       />
     </div>
   );
