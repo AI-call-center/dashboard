@@ -6,6 +6,9 @@ const AnimatedCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    // Hide the default cursor
+    document.body.style.cursor = 'none';
+
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -24,6 +27,7 @@ const AnimatedCursor = () => {
     window.addEventListener('mouseover', updateHoverState);
 
     return () => {
+      document.body.style.cursor = 'auto';
       window.removeEventListener('mousemove', updateMousePosition);
       window.removeEventListener('mouseover', updateHoverState);
     };
@@ -33,31 +37,41 @@ const AnimatedCursor = () => {
     <motion.div
       className="fixed top-0 left-0 pointer-events-none z-[100]"
       animate={{
-        x: mousePosition.x - (isHovering ? 24 : 12),
-        y: mousePosition.y - (isHovering ? 24 : 12),
-        rotate: 45,
-        scale: isHovering ? 1.5 : 1,
+        x: mousePosition.x,
+        y: mousePosition.y,
+        scale: isHovering ? 1.1 : 1,
       }}
       transition={{
         type: 'tween',
-        duration: 0.05,
+        duration: 0,
       }}
     >
       <motion.div
-        className="w-6 h-6 bg-dashboard-accent opacity-30"
+        className="relative w-8 h-8"
         style={{
-          clipPath: 'polygon(0 0, 100% 50%, 0 100%)',
+          filter: isHovering ? 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.5))' : 'none',
         }}
-        animate={{
-          scale: isHovering ? 1.2 : 1,
-        }}
-      />
-      <motion.div
-        className="w-2 h-2 bg-dashboard-accent absolute top-1.5 left-1.5 rounded-full"
-        animate={{
-          scale: isHovering ? 0.5 : 1,
-        }}
-      />
+      >
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* White outline */}
+          <path
+            d="M6 2L6 23L11 18L14 26L18 24L15 16L22 16L6 2Z"
+            stroke="white"
+            strokeWidth="2"
+          />
+          {/* Black fill */}
+          <path
+            d="M6 2L6 23L11 18L14 26L18 24L15 16L22 16L6 2Z"
+            fill="black"
+          />
+        </svg>
+      </motion.div>
     </motion.div>
   );
 };
