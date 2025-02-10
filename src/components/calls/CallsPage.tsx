@@ -9,8 +9,7 @@ import {
   AdjustmentsHorizontalIcon,
   ArrowDownTrayIcon,
   Cog6ToothIcon,
-  PhoneArrowUpRightIcon,
-  PhoneArrowDownLeftIcon,
+
 } from '@heroicons/react/24/outline';
 import CallsTable from './CallsTable';
 import FilterPanel from './FilterPanel';
@@ -33,7 +32,7 @@ const CallsPage = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilters, setActiveFilters] = useState({
-    statuses: [],
+    statuses: [] as string[],
     callType: '',
     campaign: '',
     agent: '',

@@ -22,7 +22,7 @@ interface FilterPanelProps {
 const FilterPanel = ({
   filters,
   onFilterChange,
-  onRemoveFilter,
+
 }: FilterPanelProps) => {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 

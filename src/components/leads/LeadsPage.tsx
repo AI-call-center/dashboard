@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import {
   MagnifyingGlassIcon,
@@ -7,7 +7,7 @@ import {
   ArrowUpTrayIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  CheckIcon,
+
 } from '@heroicons/react/24/outline';
 import LeadsTable from './LeadsTable';
 
