@@ -269,7 +269,6 @@ const CallsPage = () => {
             <FilterPanel
               filters={activeFilters}
               onFilterChange={handleFilterChange}
-              onRemoveFilter={handleRemoveFilter}
             />
           </motion.div>
         )}
