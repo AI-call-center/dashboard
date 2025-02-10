@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(31, 41, 55, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+@layer base {
+  body {
+    @apply m-0 font-sans antialiased bg-dashboard-dark;
+    cursor: none;
+  }
+
+  * {
+    cursor: none !important;
+  }
+}
+
+@layer components {
+  .bg-geometric {
+    background-image: 
+      linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
