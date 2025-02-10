@@ -60,7 +60,7 @@ const Sidebar = ({ selectedMenu, onMenuSelect }: SidebarProps) => {
           ))}
         </nav>
 
-        <div className="mt-8 space-y-2">
+        <div className="mt-8 mb-16 space-y-2">
           <div className="text-sm font-semibold text-gray-400 mb-2">Phone numbers</div>
           <motion.button
             whileHover={{ scale: 1.05, x: 5 }}
