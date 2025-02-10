@@ -33,18 +33,21 @@ const AnimatedCursor = () => {
     <motion.div
       className="fixed top-0 left-0 pointer-events-none z-[100]"
       animate={{
-        x: mousePosition.x - (isHovering ? 20 : 10),
-        y: mousePosition.y - (isHovering ? 20 : 10),
-        scale: isHovering ? 2 : 1,
+        x: mousePosition.x - (isHovering ? 24 : 12),
+        y: mousePosition.y - (isHovering ? 24 : 12),
+        rotate: 45,
+        scale: isHovering ? 1.5 : 1,
       }}
       transition={{
-        type: 'spring',
-        stiffness: 500,
-        damping: 28,
+        type: 'tween',
+        duration: 0.05,
       }}
     >
       <motion.div
-        className="w-5 h-5 bg-dashboard-accent rounded-full opacity-30"
+        className="w-6 h-6 bg-dashboard-accent opacity-30"
+        style={{
+          clipPath: 'polygon(0 0, 100% 50%, 0 100%)',
+        }}
         animate={{
           scale: isHovering ? 1.2 : 1,
         }}
