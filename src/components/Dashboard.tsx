@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { PhoneIcon, UserCircleIcon, CheckCircleIcon, ClockIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { PhoneIcon, UserCircleIcon, CheckCircleIcon, ClockIcon, XCircleIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../styles/datepicker.css';
+import { useState } from 'react';
 
 const data = [
   { date: '02/02/2025', calls: 4 },
@@ -137,6 +141,17 @@ const recentCalls = [
 ];
 
 const Dashboard = () => {
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+  const [startDate, endDate] = dateRange;
+
+  const getFilteredData = () => {
+    if (!startDate || !endDate) return data;
+    return data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+  };
+
   return (
     <div className="p-8 space-y-8">
       <div className="grid grid-cols-4 gap-6">
@@ -220,12 +235,28 @@ const Dashboard = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="text-xl font-semibold text-white">Calls Overview</div>
             <div className="flex space-x-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white font-medium"
-              >
-                Select Date Range
-              </motion.button>
+              <div className="relative">
+                <DatePicker
+                  selectsRange={true}
+                  startDate={startDate}
+                  endDate={endDate}
+                  onChange={(update) => setDateRange(update)}
+                  customInput={
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      className="px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white font-medium flex items-center gap-2"
+                    >
+                      <CalendarIcon className="w-5 h-5" />
+                      {startDate && endDate
+                        ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                        : 'Select Date Range'}
+                    </motion.button>
+                  }
+                  className="react-datepicker-wrapper"
+                  wrapperClassName="react-datepicker-wrapper"
+                  calendarClassName="bg-dashboard-surface border border-gray-700 rounded-lg text-white"
+                />
+              </div>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium"
@@ -236,7 +267,7 @@ const Dashboard = () => {
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data}>
+              <LineChart data={getFilteredData()}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                 <XAxis dataKey="date" stroke="#9CA3AF" />
                 <YAxis stroke="#9CA3AF" />
