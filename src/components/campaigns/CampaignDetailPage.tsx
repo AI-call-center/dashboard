@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import TemplateModal from './TemplateModal';
 import {
@@ -6,13 +6,8 @@ import {
   PauseIcon,
   PhoneIcon,
   ClockIcon,
-  CalendarDaysIcon,
-  UserIcon,
-  ArrowPathIcon,
   CheckCircleIcon,
   XCircleIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
   DocumentTextIcon,
   CloudArrowUpIcon,
   PlusIcon,
