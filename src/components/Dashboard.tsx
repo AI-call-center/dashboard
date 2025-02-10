@@ -13,11 +13,81 @@ const data = [
   { date: '09/02/2025', calls: 6 },
 ];
 
+// Mock data functions to simulate API calls
+const getCallMetrics = () => {
+  return {
+    today: {
+      total: 25,
+      inbound: {
+        total: 15,
+        answered: 13,
+        missed: 2
+      },
+      outbound: {
+        total: 10,
+        connected: 8,
+        failed: 2
+      },
+      totalDuration: 5400, // 90 minutes in seconds
+      yesterdayComparison: {
+        total: 22,
+        answerRate: 82,
+        missed: 3,
+        avgDuration: 180 // 3 minutes in seconds
+      }
+    }
+  };
+};
+
+const formatDuration = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
+};
+
+const calculateTrend = (current: number, previous: number): { type: 'up' | 'down' | 'neutral', percentage: number } => {
+  if (current === previous) return { type: 'neutral', percentage: 0 };
+  const percentage = ((current - previous) / previous) * 100;
+  return {
+    type: percentage > 0 ? 'up' : 'down',
+    percentage: Math.abs(percentage)
+  };
+};
+
+const metrics = getCallMetrics();
+
 const statsData = [
-  { label: 'Pending', value: 0 },
-  { label: 'Triggered', value: 1 },
-  { label: 'Completed', value: 9 },
-  { label: 'Failed', value: 0 },
+  {
+    label: 'Calls Handled Today',
+    value: metrics.today.total,
+    trend: calculateTrend(metrics.today.total, metrics.today.yesterdayComparison.total),
+    icon: PhoneIcon
+  },
+  {
+    label: 'Answer Rate',
+    value: `${Math.round((metrics.today.inbound.answered / metrics.today.inbound.total) * 100)}%`,
+    trend: calculateTrend(
+      (metrics.today.inbound.answered / metrics.today.inbound.total) * 100,
+      metrics.today.yesterdayComparison.answerRate
+    ),
+    icon: CheckCircleIcon
+  },
+  {
+    label: 'Missed Calls Today',
+    value: metrics.today.inbound.missed,
+    trend: calculateTrend(metrics.today.inbound.missed, metrics.today.yesterdayComparison.missed),
+    warning: metrics.today.inbound.missed > 3,
+    icon: XCircleIcon
+  },
+  {
+    label: 'Average Call Duration',
+    value: formatDuration(Math.round(metrics.today.totalDuration / metrics.today.total)),
+    trend: calculateTrend(
+      Math.round(metrics.today.totalDuration / metrics.today.total),
+      metrics.today.yesterdayComparison.avgDuration
+    ),
+    icon: ClockIcon
+  }
 ];
 
 const leadsData = [
@@ -74,10 +144,32 @@ const Dashboard = () => {
           <motion.div
             key={stat.label}
             whileHover={{ scale: 1.05 }}
-            className="p-6 rounded-xl bg-dashboard-surface border border-gray-800 animate-glow"
+            className="p-6 rounded-xl bg-dashboard-surface border border-gray-800 animate-glow relative overflow-hidden"
           >
-            <div className="text-gray-400 text-sm">{stat.label}</div>
-            <div className="text-3xl font-bold text-white mt-2">{stat.value}</div>
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <stat.icon className="w-4 h-4" />
+              {stat.label}
+            </div>
+            <div className="flex items-end gap-2 mt-2">
+              <div className={`text-3xl font-bold ${stat.warning ? 'text-red-500' : 'text-white'}`}>
+                {stat.value}
+              </div>
+              {stat.trend && stat.trend.type !== 'neutral' && (
+                <div
+                  className={`flex items-center text-sm mb-1 ${stat.trend.type === 'up' ? 
+                    (stat.label === 'Missed Calls Today' ? 'text-red-400' : 'text-green-400') :
+                    (stat.label === 'Missed Calls Today' ? 'text-green-400' : 'text-red-400')}`}
+                >
+                  {stat.trend.type === 'up' ? '↑' : '↓'}
+                  {stat.trend.percentage.toFixed(1)}%
+                </div>
+              )}
+            </div>
+            {stat.warning && (
+              <div className="absolute top-2 right-2">
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              </div>
+            )}
           </motion.div>
         ))}
       </div>
