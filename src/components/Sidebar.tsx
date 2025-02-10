@@ -23,6 +23,7 @@ const menuItems = [
   { name: 'Campaigns', icon: ChartBarIcon },
   { name: 'Actions', icon: BriefcaseIcon },
   { name: 'Calls', icon: PhoneIcon },
+  { name: 'Leads', icon: UserCircleIcon },
   { name: 'CRM', icon: UserCircleIcon },
 ];
 

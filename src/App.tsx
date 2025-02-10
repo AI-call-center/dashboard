@@ -27,7 +27,7 @@ function App() {
         return <CampaignsPage />;
       case 'Calls':
         return <CallsPage />;
-      case 'CRM':
+      case 'Leads':
         return <LeadsContainer />;
       case 'Buy Number':
         return <BuyPhonePage />;
