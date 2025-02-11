@@ -24,7 +24,6 @@ const menuItems = [
   { name: 'Actions', icon: BriefcaseIcon },
   { name: 'Calls', icon: PhoneIcon },
   { name: 'Leads', icon: UserCircleIcon },
-  { name: 'CRM', icon: UserCircleIcon },
 ];
 
 const Sidebar = ({ selectedMenu, onMenuSelect }: SidebarProps) => {
