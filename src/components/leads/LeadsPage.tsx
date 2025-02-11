@@ -24,11 +24,7 @@ interface Lead {
   lastCall: string | null;
 }
 
-interface LeadsPageProps {
-  onNavigate?: (page: 'new') => void;
-}
-
-const LeadsPage = ({ onNavigate }: LeadsPageProps) => {
+const LeadsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
