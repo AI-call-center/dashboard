@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
 import UploadCSVModal from './UploadCSVModal';
+import NewContactModal from './NewContactModal';
 
 interface Contact {
   id: string;
@@ -21,6 +22,7 @@ interface Contact {
 
 const CRMPage = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showNewContactModal, setShowNewContactModal] = useState(false);
 
   // Mock data - replace with API calls
   const contacts: Contact[] = [
@@ -91,6 +93,7 @@ const CRMPage = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => setShowNewContactModal(true)}
             className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
           >
             <PlusIcon className="w-5 h-5" />
@@ -175,6 +178,17 @@ const CRMPage = () => {
       <AnimatePresence>
         {showUploadModal && (
           <UploadCSVModal onClose={() => setShowUploadModal(false)} />
+        )}
+        {showNewContactModal && (
+          <NewContactModal
+            isOpen={showNewContactModal}
+            onClose={() => setShowNewContactModal(false)}
+            onSave={(contact) => {
+              console.log('New contact:', contact);
+              // TODO: Add API call to save contact
+              setShowNewContactModal(false);
+            }}
+          />
         )}
       </AnimatePresence>
     </div>
