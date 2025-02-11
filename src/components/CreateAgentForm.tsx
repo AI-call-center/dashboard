@@ -201,7 +201,7 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
             <select
               value={formData.voice}
               onChange={(e) => setFormData({ ...formData, voice: e.target.value })}
-              className="flex-1 px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent"
+              className="w-full sm:flex-1 px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent"
             >
               <option value="Christopher">Christopher</option>
               <option value="Emma">Emma</option>
@@ -222,7 +222,7 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
 
       <div className="space-y-4">
         <label className="block text-sm font-medium text-gray-300">Tone</label>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {toneOptions.map((tone) => (
             <motion.div
               key={tone.id}
@@ -247,12 +247,12 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
     <div className="space-y-6">
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-300">Greeting (Incoming)</label>
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:space-x-4">
           <textarea
             value={formData.greeting}
             onChange={(e) => setFormData({ ...formData, greeting: e.target.value })}
             placeholder="Ex: Hello, how can I help you today?"
-            className={`flex-1 px-4 py-2 bg-dashboard-surface border ${
+            className={`w-full sm:flex-1 px-4 py-2 bg-dashboard-surface border ${
               errors.greeting ? 'border-red-500' : 'border-gray-700'
             } rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent min-h-[100px]`}
           />
@@ -412,11 +412,11 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
 
       <div className="space-y-4">
         <label className="block text-sm font-medium text-gray-300">Knowledge Files</label>
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row gap-4 sm:space-x-4">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-4 py-2 bg-dashboard-accent/20 text-dashboard-accent rounded-lg flex items-center space-x-2"
+            className="w-full sm:w-auto px-4 py-2 bg-dashboard-accent/20 text-dashboard-accent rounded-lg flex items-center justify-center space-x-2"
           >
             <CloudArrowUpIcon className="w-5 h-5" />
             <span>Upload File</span>
@@ -632,28 +632,28 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black">
-      <div className="fixed top-8 right-8">
+    <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black overflow-hidden">
+      <div className="fixed top-4 right-4 md:top-8 md:right-8 z-50">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={onClose}
-          className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg flex items-center space-x-2"
+          className="px-3 py-1.5 md:px-4 md:py-2 bg-gray-800 text-gray-300 rounded-lg flex items-center space-x-2 text-sm md:text-base"
         >
-          <XMarkIcon className="w-5 h-5" />
+          <XMarkIcon className="w-4 h-4 md:w-5 md:h-5" />
           <span>Close</span>
         </motion.button>
       </div>
-      <div className="max-w-7xl mx-auto p-8">
-        <div className="flex space-x-8">
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
+        <div className="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0">
           {/* Sidebar */}
-          <div className="w-64 shrink-0">
-            <div className="space-y-1">
+          <div className="md:w-64 md:shrink-0">
+            <div className="flex md:flex-col space-x-2 md:space-x-0 md:space-y-1 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
               {steps.map((step, index) => (
                 <motion.button
                   key={step.id}
                   onClick={() => setCurrentStep(index)}
-                  className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 cursor-pointer transition-colors duration-200 ${
+                  className={`shrink-0 md:w-full px-3 py-2 md:px-4 md:py-3 rounded-lg flex items-center space-x-2 md:space-x-3 cursor-pointer transition-colors duration-200 text-sm md:text-base ${
                     index === currentStep
                       ? 'bg-dashboard-accent text-white'
                       : 'bg-dashboard-surface text-gray-400 hover:text-white hover:bg-dashboard-surface/80'
@@ -670,7 +670,7 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 bg-dashboard-surface border border-gray-800 rounded-xl p-8">
+          <div className="flex-1 bg-dashboard-surface border border-gray-800 rounded-xl p-4 md:p-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep}
@@ -686,12 +686,12 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
 
                 {renderStepContent()}
 
-                <div className="flex justify-between pt-6 border-t border-gray-800">
+                <div className="flex flex-col-reverse md:flex-row justify-between gap-4 pt-6 border-t border-gray-800">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleBack}
-                    className={`px-4 py-2 rounded-lg flex items-center space-x-2 ${
+                    className={`w-full md:w-auto px-4 py-2 rounded-lg flex items-center justify-center space-x-2 ${
                       currentStep === 0
                         ? 'bg-gray-800 text-gray-400 cursor-not-allowed'
                         : 'bg-dashboard-surface border border-gray-700 text-white'
@@ -706,7 +706,7 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={currentStep === steps.length - 1 ? handleSubmit : handleNext}
-                    className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium flex items-center space-x-2"
+                    className="w-full md:w-auto px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium flex items-center justify-center space-x-2"
                   >
                     <span>{currentStep === steps.length - 1 ? 'Create Agent' : 'Next'}</span>
                     <ChevronRightIcon className="w-5 h-5" />
