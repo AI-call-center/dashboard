@@ -154,7 +154,23 @@ const Sidebar = ({ selectedMenu, onMenuSelect, isMobileMenuOpen, onMobileMenuTog
           </div>
         </div>
       </div>
-    </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onMobileMenuToggle}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
