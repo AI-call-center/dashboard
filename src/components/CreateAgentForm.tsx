@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useCallback } from 'react';
 import TemplateBrowser from './TemplateBrowser';
 import ToolSettings from './ToolSettings';
+import VoiceCloneModal from './VoiceCloneModal';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import {
   ChevronRightIcon,
@@ -98,6 +99,7 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showGreetingTemplates, setShowGreetingTemplates] = useState(false);
   const [showPromptTemplates, setShowPromptTemplates] = useState(false);
+  const [showVoiceCloneModal, setShowVoiceCloneModal] = useState(false);
 
   const validateStep = useCallback((step: number) => {
     const newErrors: Record<string, string> = {};
@@ -195,15 +197,26 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-300">Voice</label>
         <div className="flex space-x-4">
-          <select
-            value={formData.voice}
-            onChange={(e) => setFormData({ ...formData, voice: e.target.value })}
-            className="flex-1 px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent"
+          <div className="flex-1 flex space-x-4">
+            <select
+              value={formData.voice}
+              onChange={(e) => setFormData({ ...formData, voice: e.target.value })}
+              className="flex-1 px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent"
           >
             <option value="Christopher">Christopher</option>
             <option value="Emma">Emma</option>
             <option value="James">James</option>
-          </select>
+            </select>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowVoiceCloneModal(true)}
+              className="px-4 py-2 bg-dashboard-accent text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2"
+            >
+              <PlusIcon className="w-5 h-5" />
+              <span>Clone Voice</span>
+            </motion.button>
+          </div>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -712,6 +725,16 @@ const CreateAgentForm = ({ onClose }: CreateAgentFormProps) => {
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        <VoiceCloneModal
+          isOpen={showVoiceCloneModal}
+          onClose={() => setShowVoiceCloneModal(false)}
+          onClone={(voiceName) => {
+            setFormData({ ...formData, voice: voiceName });
+            setShowVoiceCloneModal(false);
+          }}
+        />
+      </AnimatePresence>
     </div>
   );
 };
