@@ -10,7 +10,7 @@ interface NewContactModalProps {
 
 const NewContactModal = ({ isOpen, onClose, onSave }: NewContactModalProps) => {
   const [formData, setFormData] = useState({
-    phone: '+971544972888',
+    phone: '',
     name: '',
     email: '',
     variables: [{ key: '', value: '' }]
@@ -81,7 +81,7 @@ const NewContactModal = ({ isOpen, onClose, onSave }: NewContactModalProps) => {
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="Ex: +919876543210"
+              placeholder="Ex: +971544972888"
               className="w-full px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-dashboard-accent"
             />
           </div>
