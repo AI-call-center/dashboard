@@ -47,18 +47,18 @@ const AgentsPage = () => {
     return <CreateAgentForm onClose={() => setShowCreateForm(false)} />;
   }
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">AI Agents</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">AI Agents</h1>
           <p className="text-gray-400 mt-1">Manage and monitor your AI agents</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowCreateForm(true)}
-          className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium flex items-center space-x-2"
+          className="w-full sm:w-auto px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium flex items-center justify-center sm:justify-start space-x-2"
         >
           <PlusIcon className="w-5 h-5" />
           <span>Create New Agent</span>
@@ -66,7 +66,7 @@ const AgentsPage = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {[
           { label: 'Total Agents', value: '3', icon: UserCircleIcon },
           { label: 'Active Now', value: '2', icon: BoltIcon },
@@ -76,7 +76,7 @@ const AgentsPage = () => {
           <motion.div
             key={stat.label}
             whileHover={{ scale: 1.02 }}
-            className="p-6 rounded-xl bg-dashboard-surface border border-gray-800"
+            className="p-4 sm:p-6 rounded-xl bg-dashboard-surface border border-gray-800"
           >
             <div className="flex items-center justify-between">
               <div className="text-gray-400">{stat.label}</div>
@@ -89,7 +89,7 @@ const AgentsPage = () => {
 
       {/* Agents List */}
       <div className="bg-dashboard-surface border border-gray-800 rounded-xl overflow-hidden">
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-4 sm:p-6 border-b border-gray-800">
           <h2 className="text-xl font-semibold text-white">Active Agents</h2>
         </div>
         <div className="divide-y divide-gray-800">
@@ -98,7 +98,7 @@ const AgentsPage = () => {
               key={agent.id}
               initial={false}
               whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}
-              className="p-6 flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0"
+              className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0 gap-4"
             >
               <div className="flex items-center space-x-4">
                 <div className="w-10 h-10 rounded-full bg-dashboard-accent/10 flex items-center justify-center">

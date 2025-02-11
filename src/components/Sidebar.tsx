@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   HomeIcon,
   CogIcon,
@@ -8,11 +8,15 @@ import {
   PhoneIcon,
   BriefcaseIcon,
   UserCircleIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 
 interface SidebarProps {
   selectedMenu: string;
   onMenuSelect: (menu: string) => void;
+  isMobileMenuOpen?: boolean;
+  onMobileMenuToggle?: () => void;
 }
 
 const menuItems = [
@@ -26,12 +30,34 @@ const menuItems = [
   { name: 'Leads', icon: UserCircleIcon },
 ];
 
-const Sidebar = ({ selectedMenu, onMenuSelect }: SidebarProps) => {
+const Sidebar = ({ selectedMenu, onMenuSelect, isMobileMenuOpen, onMobileMenuToggle }: SidebarProps) => {
   return (
-    <motion.div
-      initial={{ x: -280 }}
-      animate={{ x: 0 }}
-      className="w-70 bg-dashboard-surface border-r border-gray-800 p-6 flex flex-col"
+    <>
+      {/* Mobile Menu Button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={onMobileMenuToggle}
+          className="p-2 rounded-lg bg-dashboard-surface border border-gray-800"
+        >
+          {isMobileMenuOpen ? (
+            <XMarkIcon className="w-6 h-6 text-white" />
+          ) : (
+            <Bars3Icon className="w-6 h-6 text-white" />
+          )}
+        </motion.button>
+      </div>
+
+      {/* Sidebar */}
+      <AnimatePresence>
+        {(isMobileMenuOpen || window.innerWidth >= 1024) && (
+          <motion.div
+            initial={{ x: -280, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -280, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className={`fixed lg:relative top-0 left-0 h-full z-40 w-[280px] bg-dashboard-surface border-r border-gray-800 p-6 flex flex-col ${isMobileMenuOpen ? 'shadow-2xl' : ''}`}
     >
       <div className="flex-1">
         <motion.div

@@ -16,6 +16,12 @@ import AnimatedCursor from './components/AnimatedCursor';
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState('Home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleMenuSelect = (menu: string) => {
+    setSelectedMenu(menu);
+    setIsMobileMenuOpen(false);
+  };
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -44,11 +50,16 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black text-white overflow-x-hidden">
       <AnimatedCursor />
-      <div className="flex">
-        <Sidebar selectedMenu={selectedMenu} onMenuSelect={setSelectedMenu} />
-        <main className="flex-1 overflow-y-auto">
+      <div className="flex relative">
+        <Sidebar 
+          selectedMenu={selectedMenu} 
+          onMenuSelect={handleMenuSelect}
+          isMobileMenuOpen={isMobileMenuOpen}
+          onMobileMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
+        <main className="flex-1 overflow-y-auto pt-16 lg:pt-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedMenu}

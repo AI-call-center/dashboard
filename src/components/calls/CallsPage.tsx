@@ -179,12 +179,12 @@ const CallsPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 space-y-6">
+    <div className="min-h-screen p-4 sm:p-6 space-y-4 sm:space-y-6">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
               Calls
             </h1>
             <motion.button
@@ -210,7 +210,7 @@ const CallsPage = () => {
       </div>
 
       {/* Search and Filter Toggle */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
         <div className="relative flex-1">
           <input
             type="text"
@@ -267,7 +267,7 @@ const CallsPage = () => {
       {Object.entries(activeFilters).some(
         ([_, value]) => value && (Array.isArray(value) ? value.length > 0 : true)
       ) && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 max-w-full overflow-x-auto pb-2">
           {Object.entries(activeFilters).map(
             ([key, value]) =>
               value &&
