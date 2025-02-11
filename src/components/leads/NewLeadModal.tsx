@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { XMarkIcon, TrashIcon } from '@heroicons/react/24/outline';
 
-interface NewContactModalProps {
+interface NewLeadModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (contact: any) => void;
 }
 
-const NewContactModal = ({ isOpen, onClose, onSave }: NewContactModalProps) => {
+const NewLeadModal = ({ isOpen, onClose, onSave }: NewLeadModalProps) => {
   const [formData, setFormData] = useState({
     phone: '',
     name: '',
@@ -185,4 +185,4 @@ const NewContactModal = ({ isOpen, onClose, onSave }: NewContactModalProps) => {
   );
 };
 
-export default NewContactModal;
+export default NewLeadModal;

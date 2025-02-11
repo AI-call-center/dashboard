@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import {
   MagnifyingGlassIcon,
@@ -10,6 +10,7 @@ import {
 
 } from '@heroicons/react/24/outline';
 import LeadsTable from './LeadsTable';
+import NewLeadModal from './NewLeadModal';
 
 interface Lead {
   id: string;
@@ -32,6 +33,7 @@ const LeadsPage = ({ onNavigate }: LeadsPageProps) => {
   const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
+  const [showNewLeadModal, setShowNewLeadModal] = useState(false);
 
   // Mock data - replace with actual data fetching
   const leads: Lead[] = [
@@ -74,7 +76,7 @@ const LeadsPage = ({ onNavigate }: LeadsPageProps) => {
   };
 
   const handleNewLead = () => {
-    onNavigate?.('new');
+    setShowNewLeadModal(true);
   };
 
   const handleUploadCSV = () => {
@@ -187,6 +189,21 @@ const LeadsPage = ({ onNavigate }: LeadsPageProps) => {
           </motion.button>
         </div>
       </div>
+
+      {/* New Lead Modal */}
+      <AnimatePresence>
+        {showNewLeadModal && (
+          <NewLeadModal
+            isOpen={showNewLeadModal}
+            onClose={() => setShowNewLeadModal(false)}
+            onSave={(lead) => {
+              console.log('New lead:', lead);
+              // TODO: Add API call to save lead
+              setShowNewLeadModal(false);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
