@@ -153,8 +153,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-8 space-y-8">
-      <div className="grid grid-cols-4 gap-6">
+    <div className="p-4 md:p-8 space-y-6 md:space-y-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {statsData.map((stat) => (
           <motion.div
             key={stat.label}
@@ -166,7 +166,7 @@ const Dashboard = () => {
               {stat.label}
             </div>
             <div className="flex items-end gap-2 mt-2">
-              <div className={`text-3xl font-bold ${stat.warning ? 'text-red-500' : 'text-white'}`}>
+              <div className={`text-2xl md:text-3xl font-bold ${stat.warning ? 'text-red-500' : 'text-white'}`}>
                 {stat.value}
               </div>
               {stat.trend && stat.trend.type !== 'neutral' && (
@@ -197,12 +197,12 @@ const Dashboard = () => {
           <div className="text-xl font-semibold text-white">Recent Leads</div>
           <motion.button
             whileHover={{ scale: 1.05 }}
-            className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium animate-glow"
+            className="w-full sm:w-auto px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium animate-glow"
           >
             View All Leads
           </motion.button>
         </div>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {leadsData.map((lead) => (
             <motion.div
               key={lead.id}
@@ -234,7 +234,7 @@ const Dashboard = () => {
         >
           <div className="flex justify-between items-center mb-6">
             <div className="text-xl font-semibold text-white">Calls Overview</div>
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
               <div className="relative">
                 <DatePicker
                   selectsRange={true}
@@ -244,7 +244,7 @@ const Dashboard = () => {
                   customInput={
                     <motion.button
                       whileHover={{ scale: 1.05 }}
-                      className="px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white font-medium flex items-center gap-2"
+                      className="w-full sm:w-auto px-4 py-2 bg-dashboard-surface border border-gray-700 rounded-lg text-white font-medium flex items-center gap-2"
                     >
                       <CalendarIcon className="w-5 h-5" />
                       {startDate && endDate
@@ -259,13 +259,13 @@ const Dashboard = () => {
               </div>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium"
+                className="w-full sm:w-auto px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium"
               >
                 Download Report
               </motion.button>
             </div>
           </div>
-          <div className="h-64">
+          <div className="h-48 md:h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={getFilteredData()}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -295,23 +295,23 @@ const Dashboard = () => {
           whileHover={{ scale: 1.02 }}
           className="p-6 rounded-xl bg-dashboard-surface border border-gray-800"
         >
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="text-xl font-semibold text-white">Latest Calls</div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+              <div className="flex flex-wrap items-center gap-2 text-sm">
                 <span className="flex items-center"><CheckCircleIcon className="w-4 h-4 text-green-500 mr-1" /> Completed</span>
                 <span className="flex items-center"><ClockIcon className="w-4 h-4 text-yellow-500 mr-1" /> In Progress</span>
                 <span className="flex items-center"><XCircleIcon className="w-4 h-4 text-red-500 mr-1" /> Failed</span>
               </div>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium"
+                className="w-full sm:w-auto px-4 py-2 bg-dashboard-accent rounded-lg text-white font-medium"
               >
                 View All Calls
               </motion.button>
             </div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-6 px-6">
             <table className="w-full">
               <thead>
                 <tr className="text-left text-gray-400 border-b border-gray-800">
@@ -345,7 +345,7 @@ const Dashboard = () => {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <motion.button
           whileHover={{ scale: 1.05 }}
           className="p-6 rounded-xl bg-dashboard-surface border border-gray-800 flex items-center animate-glow"
