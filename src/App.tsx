@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import AgentsPage from './components/AgentsPage';
@@ -13,10 +13,20 @@ import BillingPage from './components/billing/BillingPage';
 import ActionsPage from './components/actions/ActionsPage';
 
 import AnimatedCursor from './components/AnimatedCursor';
+import OnboardingFlow from './components/onboarding/OnboardingFlow';
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState('Home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  // Check if user has completed onboarding
+  useEffect(() => {
+    const hasCompletedOnboarding = localStorage.getItem('hasCompletedOnboarding');
+    if (hasCompletedOnboarding) {
+      setShowOnboarding(false);
+    }
+  }, []);
 
   const handleMenuSelect = (menu: string) => {
     setSelectedMenu(menu);
@@ -48,6 +58,15 @@ function App() {
         return <Dashboard />;
     }
   };
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('hasCompletedOnboarding', 'true');
+    setShowOnboarding(false);
+  };
+
+  if (showOnboarding) {
+    return <OnboardingFlow onComplete={handleOnboardingComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black text-white overflow-x-hidden">
