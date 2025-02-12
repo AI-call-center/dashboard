@@ -65,12 +65,16 @@ function App() {
   };
 
   if (showOnboarding) {
-    return <OnboardingFlow onComplete={handleOnboardingComplete} />;
+    return (
+      <>
+        <AnimatedCursor />
+        <OnboardingFlow onComplete={handleOnboardingComplete} />
+      </>
+    );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black text-white overflow-x-hidden">
-      <AnimatedCursor />
       <div className="flex relative">
         <Sidebar 
           selectedMenu={selectedMenu} 

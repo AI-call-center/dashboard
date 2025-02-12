@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedCursor from '../AnimatedCursor';
 import { useState } from 'react';
 import CreateAgentForm from '../CreateAgentForm';
 import {
