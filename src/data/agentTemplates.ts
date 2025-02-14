@@ -7,11 +7,16 @@ import {
   ShoppingCartIcon,
 } from '@heroicons/react/24/outline';
 
+export type CallDirection = 'inbound' | 'outbound' | 'both';
+export type AgentCategory = 'sales' | 'support' | 'operations' | 'specialized';
+
 export interface AgentTemplate {
   id: string;
   name: string;
   description: string;
   icon: any;
+  category: AgentCategory;
+  direction: CallDirection;
   capabilities: string[];
   setupTime: string;
   popularity: number;
@@ -20,9 +25,24 @@ export interface AgentTemplate {
   defaultTools: string[];
 }
 
+export const categoryColors = {
+  sales: 'text-blue-400',
+  support: 'text-green-400',
+  operations: 'text-purple-400',
+  specialized: 'text-orange-400',
+};
+
+export const directionLabels = {
+  inbound: 'Inbound Calls',
+  outbound: 'Outbound Calls',
+  both: 'Inbound & Outbound',
+};
+
 export const agentTemplates: AgentTemplate[] = [
   {
     id: 'sales-agent',
+    category: 'sales',
+    direction: 'both',
     name: 'Sales Agent',
     description: 'Qualifies leads and books sales meetings',
     icon: UserGroupIcon,
@@ -40,6 +60,8 @@ export const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'customer-service',
+    category: 'support',
+    direction: 'inbound',
     name: 'Customer Service',
     description: 'Handles support and service inquiries',
     icon: PhoneIcon,
@@ -71,6 +93,8 @@ export const agentTemplates: AgentTemplate[] = [
     defaultPrompt: 'You are an appointment scheduling specialist. Help customers book, reschedule, or cancel appointments efficiently while maintaining a professional and organized approach.',
     defaultGreeting: 'Hi! I\'m here to help you schedule an appointment. When would you like to book?',
     defaultTools: ['appointment-scheduling', 'end-call'],
+    category: 'operations',
+    direction: 'both',
   },
   {
     id: 'faq-assistant',
@@ -88,9 +112,13 @@ export const agentTemplates: AgentTemplate[] = [
     defaultPrompt: 'You are a knowledgeable FAQ assistant. Provide clear and concise answers to questions while being helpful and patient.',
     defaultGreeting: 'Welcome! I\'m your FAQ assistant. What question can I help you with?',
     defaultTools: ['end-call'],
+    category: 'support',
+    direction: 'inbound',
   },
   {
     id: 'real-estate',
+    category: 'specialized',
+    direction: 'both',
     name: 'Real Estate Agent',
     description: 'Handles property inquiries',
     icon: BuildingOfficeIcon,
@@ -108,6 +136,8 @@ export const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'order-support',
+    category: 'support',
+    direction: 'inbound',
     name: 'Order Support',
     description: 'Handles order-related inquiries',
     icon: ShoppingCartIcon,

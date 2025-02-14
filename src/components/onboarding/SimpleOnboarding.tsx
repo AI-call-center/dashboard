@@ -1,6 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { agentTemplates, type AgentTemplate } from '../../data/agentTemplates';
+import { 
+  agentTemplates, 
+  type AgentTemplate, 
+  type CallDirection, 
+  type AgentCategory,
+  categoryColors,
+  directionLabels,
+} from '../../data/agentTemplates';
 import {
   ChevronRightIcon,
   ArrowPathIcon,
@@ -16,6 +23,8 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
   const [agentName, setAgentName] = useState('');
   const [voice, setVoice] = useState('Christopher');
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<AgentCategory | 'all'>('all');
+  const [selectedDirection, setSelectedDirection] = useState<CallDirection | 'all'>('all');
 
   const handleCreateAgent = async () => {
     if (!selectedTemplate || !agentName) return;
@@ -41,11 +50,79 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Templates */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Filters */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex flex-wrap gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-300">Category</label>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setSelectedCategory('all')}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      selectedCategory === 'all'
+                        ? 'bg-dashboard-accent text-white'
+                        : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                    }`}
+                  >
+                    All
+                  </button>
+                  {Object.entries(categoryColors).map(([category, color]) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category as AgentCategory)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        selectedCategory === category
+                          ? 'bg-dashboard-accent text-white'
+                          : `bg-gray-800 hover:bg-gray-700 ${color}`
+                      }`}
+                    >
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-300">Call Direction</label>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setSelectedDirection('all')}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      selectedDirection === 'all'
+                        ? 'bg-dashboard-accent text-white'
+                        : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                    }`}
+                  >
+                    All
+                  </button>
+                  {Object.entries(directionLabels).map(([direction, label]) => (
+                    <button
+                      key={direction}
+                      onClick={() => setSelectedDirection(direction as CallDirection)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                        selectedDirection === direction
+                          ? 'bg-dashboard-accent text-white'
+                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Templates */}
+            <div className="space-y-4">
             <h2 className="text-xl font-semibold text-white mb-4">Choose a Template</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {agentTemplates.map((template) => (
+              {agentTemplates
+                .filter(
+                  (template) =>
+                    (selectedCategory === 'all' || template.category === selectedCategory) &&
+                    (selectedDirection === 'all' || template.direction === selectedDirection)
+                )
+                .map((template) => (
                 <motion.div
                   key={template.id}
                   whileHover={{ scale: 1.02 }}
@@ -67,7 +144,17 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="text-white font-medium">{template.name}</h3>
+                        <div className="space-y-1">
+                          <h3 className="text-white font-medium">{template.name}</h3>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-xs ${categoryColors[template.category]}`}>
+                              {template.category.charAt(0).toUpperCase() + template.category.slice(1)}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              {directionLabels[template.direction]}
+                            </span>
+                          </div>
+                        </div>
                         <span className="text-xs text-gray-400">{template.setupTime}</span>
                       </div>
                       <p className="text-sm text-gray-400 mt-1">{template.description}</p>
