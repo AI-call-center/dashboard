@@ -13,7 +13,7 @@ import BillingPage from './components/billing/BillingPage';
 import ActionsPage from './components/actions/ActionsPage';
 
 import AnimatedCursor from './components/AnimatedCursor';
-import OnboardingFlow from './components/onboarding/OnboardingFlow';
+import SimpleOnboarding from './components/onboarding/SimpleOnboarding';
 
 function App() {
   const [selectedMenu, setSelectedMenu] = useState('Home');
@@ -68,7 +68,7 @@ function App() {
     return (
       <>
         <AnimatedCursor />
-        <OnboardingFlow onComplete={handleOnboardingComplete} />
+        <SimpleOnboarding onComplete={handleOnboardingComplete} />
       </>
     );
   }
