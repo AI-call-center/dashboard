@@ -166,6 +166,7 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
                 </motion.div>
               ))}
             </div>
+            </div>
           </div>
 
           {/* Configuration */}
