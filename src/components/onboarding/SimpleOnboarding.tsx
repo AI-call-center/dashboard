@@ -19,12 +19,13 @@ interface SimpleOnboardingProps {
 }
 
 const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedTemplate, setSelectedTemplate] = useState<AgentTemplate | null>(null);
   const [agentName, setAgentName] = useState('');
   const [voice, setVoice] = useState('Christopher');
   const [isCreating, setIsCreating] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<AgentCategory | 'all'>('all');
-  const [selectedDirection, setSelectedDirection] = useState<CallDirection | 'all'>('all');
+  const [selectedCategory, setSelectedCategory] = useState<AgentCategory | null>(null);
+  const [selectedDirection, setSelectedDirection] = useState<CallDirection | null>(null);
 
   const handleCreateAgent = async () => {
     if (!selectedTemplate || !agentName) return;
@@ -36,91 +37,155 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
     onComplete();
   };
 
+  const handleNext = () => {
+    if (step === 1 && selectedCategory && selectedDirection) {
+      setStep(2);
+    } else if (step === 2 && selectedTemplate) {
+      setStep(3);
+    }
+  };
+
+  const handleBack = () => {
+    if (step === 2) {
+      setStep(1);
+      setSelectedTemplate(null);
+    } else if (step === 3) {
+      setStep(2);
+    }
+  };
+
+  const steps = [
+    { number: 1, title: 'Choose Purpose' },
+    { number: 2, title: 'Select Template' },
+    { number: 3, title: 'Quick Setup' },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-dashboard-dark to-black p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+        {/* Progress */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <div className="flex justify-between items-center relative">
+            {steps.map((s, i) => (
+              <div key={s.number} className="flex-1 flex items-center">
+                <div className="relative flex flex-col items-center">
+                  <div
+                    className={`w-10 h-10 rounded-full border-2 flex items-center justify-center relative z-10 ${step >= s.number ? 'bg-dashboard-accent border-dashboard-accent' : 'bg-gray-800 border-gray-700'}`}
+                  >
+                    <span className={`text-sm font-medium ${step >= s.number ? 'text-white' : 'text-gray-400'}`}>
+                      {s.number}
+                    </span>
+                  </div>
+                  <span className={`mt-2 text-sm ${step >= s.number ? 'text-white' : 'text-gray-400'}`}>
+                    {s.title}
+                  </span>
+                </div>
+                {i < steps.length - 1 && (
+                  <div
+                    className={`flex-1 h-0.5 mx-4 ${step > s.number ? 'bg-dashboard-accent' : 'bg-gray-700'}`}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Create Your AI Agent
+            {step === 1 && 'What will your AI agent do?'}
+            {step === 2 && 'Choose the perfect template'}
+            {step === 3 && 'Let\'s set up your agent'}
           </h1>
           <p className="text-gray-400 max-w-xl mx-auto">
-            Choose a template to get started quickly. Your agent will be pre-configured with the best settings for your use case.
+            {step === 1 && 'Select a category and call direction to find the perfect template for your needs.'}
+            {step === 2 && 'Choose a template that matches your requirements. Each template is pre-configured for optimal performance.'}
+            {step === 3 && 'Just a few quick details and your agent will be ready to go.'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Filters */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex flex-wrap gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Category</label>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedCategory('all')}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                      selectedCategory === 'all'
-                        ? 'bg-dashboard-accent text-white'
-                        : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                    }`}
+        <AnimatePresence mode="wait">
+          {step === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-white">Category</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(categoryColors).map(([category, color]) => (
+                      <motion.button
+                        key={category}
+                        onClick={() => setSelectedCategory(category as AgentCategory)}
+                        className={`p-6 rounded-xl border text-left transition-colors ${selectedCategory === category
+                          ? 'border-dashboard-accent bg-dashboard-accent/10'
+                          : 'border-gray-800 bg-dashboard-surface hover:border-gray-700'}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span className={`text-lg font-medium ${color}`}>
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold text-white">Call Direction</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(directionLabels).map(([direction, label]) => (
+                      <motion.button
+                        key={direction}
+                        onClick={() => setSelectedDirection(direction as CallDirection)}
+                        className={`p-6 rounded-xl border text-left transition-colors ${selectedDirection === direction
+                          ? 'border-dashboard-accent bg-dashboard-accent/10'
+                          : 'border-gray-800 bg-dashboard-surface hover:border-gray-700'}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span className="text-lg font-medium text-white">{label}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleNext}
+                    disabled={!selectedCategory || !selectedDirection}
+                    className="px-6 py-3 bg-dashboard-accent text-white rounded-lg font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    All
-                  </button>
-                  {Object.entries(categoryColors).map(([category, color]) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category as AgentCategory)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                        selectedCategory === category
-                          ? 'bg-dashboard-accent text-white'
-                          : `bg-gray-800 hover:bg-gray-700 ${color}`
-                      }`}
-                    >
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </button>
-                  ))}
+                    <span>Next Step</span>
+                    <ChevronRightIcon className="w-5 h-5" />
+                  </motion.button>
                 </div>
               </div>
+            </motion.div>
+          )}
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Call Direction</label>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedDirection('all')}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                      selectedDirection === 'all'
-                        ? 'bg-dashboard-accent text-white'
-                        : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                    }`}
-                  >
-                    All
-                  </button>
-                  {Object.entries(directionLabels).map(([direction, label]) => (
-                    <button
-                      key={direction}
-                      onClick={() => setSelectedDirection(direction as CallDirection)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                        selectedDirection === direction
-                          ? 'bg-dashboard-accent text-white'
-                          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Templates */}
-            <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-white mb-4">Choose a Template</h2>
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="max-w-4xl mx-auto"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Templates */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {agentTemplates
                 .filter(
                   (template) =>
-                    (selectedCategory === 'all' || template.category === selectedCategory) &&
-                    (selectedDirection === 'all' || template.direction === selectedDirection)
+                    template.category === selectedCategory &&
+                    template.direction === selectedDirection
                 )
                 .map((template) => (
                 <motion.div
@@ -169,8 +234,41 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
             </div>
           </div>
 
-          {/* Configuration */}
-          <div className="space-y-6">
+              </div>
+
+              <div className="flex justify-between mt-8">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleBack}
+                  className="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium"
+                >
+                  Back
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleNext}
+                  disabled={!selectedTemplate}
+                  className="px-6 py-3 bg-dashboard-accent text-white rounded-lg font-medium flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span>Next Step</span>
+                  <ChevronRightIcon className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 3 && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="max-w-md mx-auto"
+            >
+              {/* Configuration */}
+              <div className="space-y-6">
             <h2 className="text-xl font-semibold text-white mb-4">Quick Setup</h2>
             <div className="bg-dashboard-surface border border-gray-800 rounded-xl p-6">
               {selectedTemplate ? (
@@ -216,13 +314,22 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
                       </ul>
                     </div>
 
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={handleCreateAgent}
-                      disabled={!agentName || isCreating}
-                      className="w-full mt-6 px-6 py-3 bg-dashboard-accent text-white rounded-lg font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
+                    <div className="flex justify-between mt-6 space-x-4">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={handleBack}
+                        className="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium"
+                      >
+                        Back
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={handleCreateAgent}
+                        disabled={!agentName || isCreating}
+                        className="flex-1 px-6 py-3 bg-dashboard-accent text-white rounded-lg font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
                       {isCreating ? (
                         <>
                           <ArrowPathIcon className="w-5 h-5 animate-spin" />
@@ -234,7 +341,8 @@ const SimpleOnboarding = ({ onComplete }: SimpleOnboardingProps) => {
                           <ChevronRightIcon className="w-5 h-5" />
                         </>
                       )}
-                    </motion.button>
+                      </motion.button>
+                    </div>
                   </div>
                 </>
               ) : (
